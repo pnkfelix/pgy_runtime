@@ -3,6 +3,8 @@ extern crate typed_arena;
 use std::fmt;
 
 pub trait FromChar { fn from_char(c: char) -> Self; }
+impl FromChar for char { fn from_char(c: char) -> Self { c } }
+pub trait LabelZero { fn label_zero() -> Self; }
 
 pub trait Context<'g, LABEL> {
     type Success: Default;
@@ -40,11 +42,11 @@ pub struct Desc<'g, LABEL:'g>(pub LABEL,
 #[derive(Copy, Clone, PartialEq)]
 pub struct GData<LABEL>(Option<(LABEL, InputPos)>);
 impl<LABEL> GData<LABEL> {
-    fn dummy() -> GData<LABEL> { GData(None) }
-    fn new(l: LABEL, i: InputPos) -> Self {
+    pub fn dummy() -> GData<LABEL> { GData(None) }
+    pub fn new(l: LABEL, i: InputPos) -> Self {
         GData(Some((l, i)))
     }
-    fn label(&self) -> LABEL where LABEL:Copy {
+    pub fn label(&self) -> LABEL where LABEL:Copy {
         self.0.unwrap().0
     }
 }
