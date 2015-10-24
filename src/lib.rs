@@ -6,9 +6,15 @@ pub trait FromChar { fn from_char(c: char) -> Self; }
 impl FromChar for char { fn from_char(c: char) -> Self { c } }
 pub trait LabelZero { fn label_zero() -> Self; }
 
+pub trait StartNonTerm<Label> {
+    /// Returns FIRST(N$) for nonterm N (= self).
+    fn first_end<'g, C:Context<'g, Label>>(self, c: &C) -> bool;
+    fn to_label(self) -> Label;
+}
+
 pub trait Context<'g, LABEL> {
     type Success: Default;
-    type ParseError: Default;
+    type ParseError: Default + From<&'static str>;
     type Term: FromChar;
 
     fn i_in(&self, &[Self::Term]) -> bool;
