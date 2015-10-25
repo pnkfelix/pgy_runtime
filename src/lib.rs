@@ -6,12 +6,20 @@ pub trait FromChar { fn from_char(c: char) -> Self; }
 impl FromChar for char { fn from_char(c: char) -> Self { c } }
 pub trait LabelZero { fn label_zero() -> Self; }
 
+pub trait StartNonTerm<Label> {
+    /// Returns FIRST(N$) for nonterm N (= self).
+    fn first_end<'g, C:Context<'g, Label>>(self, c: &C) -> bool;
+    fn to_label(self) -> Label;
+}
+
 pub trait Context<'g, LABEL> {
     type Success: Default;
-    type ParseError: Default;
+    type ParseError: Default + From<&'static str>;
     type Term: FromChar;
 
+    fn create(&mut self, l: LABEL);
     fn i_in(&self, &[Self::Term]) -> bool;
+    fn i_in_end(&self, &[Self::Term]) -> bool;
     fn i_len(&self) -> usize;
     fn i_incr(&mut self);
     fn pop(&mut self);
@@ -20,6 +28,8 @@ pub trait Context<'g, LABEL> {
     fn r_seen_contains(&self, &Desc<'g, LABEL>) -> bool;
     fn set_s(&mut self, u: Stack<'g, LABEL>);
     fn set_i(&mut self, j: InputPos);
+
+    fn add_s(&mut self, l: LABEL);
 }
 
 use graph::{Node};
