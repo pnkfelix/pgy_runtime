@@ -26,6 +26,7 @@ use graph::{Node};
 
 pub mod arena;
 pub mod graph;
+pub mod demo;
 
 #[derive(Copy, Clone, PartialEq, Debug)]
 pub struct InputPos(pub usize);
