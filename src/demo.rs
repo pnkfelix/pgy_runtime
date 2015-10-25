@@ -1,3 +1,9 @@
+macro_rules! db {
+    ($($tt:expr),*) => {
+        // println!($($tt),*)
+    }
+}
+
 #[allow(non_snake_case)]
 pub struct DemoContext<'i, 'g, LABEL:'g> {
     i: InputPos,
@@ -138,12 +144,6 @@ impl<T:PartialEq> Set<T> {
     }
     fn elems(&self) -> &[T] {
         &self.elems[..]
-    }
-}
-
-macro_rules! db {
-    ($($tt:expr),*) => {
-        // println!($($tt),*)
     }
 }
 
