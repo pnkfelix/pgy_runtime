@@ -49,10 +49,6 @@ impl<'i, 'g, LABEL:'g + Eq + Copy + ::std::fmt::Debug> DemoContext<'i, 'g, LABEL
             (Some(c), _) => terms.contains(&(c.0 as char)),
         }
     }
-    fn i_in_end(&self, terms: &[char]) -> bool {
-        self.i_in_core(terms, EndToken::Incl)
-    }
-
     fn add(&mut self, l: LABEL, u: Stack<'g, LABEL>, j: InputPos) {
         // N.B. two U_j and R are combined into one (they are separate
         // in the paper); only one operation is needed here.

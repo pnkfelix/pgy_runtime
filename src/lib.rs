@@ -81,21 +81,16 @@ impl<'g, LABEL> PartialEq for Stack<'g, LABEL> {
         (self.0 as *const _) == (rhs.0 as *const _)
     }
 }
-impl<'g, LABEL> Stack<'g, LABEL> {
-    fn empty(&self) -> bool {
-        self.0.children().count() == 0
-    }
-}
 impl<'g, LABEL: fmt::Debug> fmt::Debug for Stack<'g, LABEL> {
     fn fmt(&self, w: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-        write!(w, "Stack [ ");
+        try!(write!(w, "Stack [ "));
         let mut n = self.0;
         loop {
-            write!(w, "{:?} ", n.data);
+            try!(write!(w, "{:?} ", n.data));
             match n.children().count() {
                 0 => break,
                 1 => { n = n.children().next().unwrap(); }
-                _ => { write!(w, ".."); break; }
+                _ => { try!(write!(w, "..")); break; }
             }
         }
         write!(w, "]")
