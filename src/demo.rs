@@ -147,8 +147,8 @@ impl<T:PartialEq> Set<T> {
     }
 }
 
-use pgy_runtime::*;
-use pgy_runtime::graph::{Graph, Node};
+use super::*;
+use super::graph::{Graph, Node};
 
 enum EndToken { Incl, Excl }
 
